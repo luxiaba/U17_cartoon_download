@@ -28,13 +28,13 @@ def get_img_list(chapter_url):
 
 
 def get_cartoon(url):
-    soup = BeautifulSoup(requests.get(url).content)
+    soup = BeautifulSoup(requests.get(url,headers={ "User-Agent":"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36" }).content)
     title = soup.find('title').string
-    a = soup.find('ul', class_='cf chapter_list_display')
+    a = soup.find('ul', class_='cf', id='chapter')
     chapter_info = {}
     all_chapter = a.find_all('li')
     for x, each in enumerate(all_chapter):
-        chapter_info['%s_cpt_title' % (x + 1)] = each.a['title']
+        chapter_info['%s_cpt_title' % (x + 1)] = each.a.text
         chapter_url = each.a['href']
         chapter_info['%s_cpt_img_list' % (x + 1)] = (chapter_url)
 
